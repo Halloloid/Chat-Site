@@ -24,6 +24,10 @@ io.on("connection",(socket)=>{
         });
     })
 
+    socket.on("typing",({room,user})=>{
+        socket.to(room).emit("typing",user);
+    })
+
     socket.on("disconnected",()=>{
         console.log(" User Disconnected with id : ",socket.id);
     })
