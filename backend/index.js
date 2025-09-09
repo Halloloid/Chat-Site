@@ -11,14 +11,15 @@ server.listen(3000,()=>{
 io.on("connection",(socket)=>{
     console.log("A user Connected with id : ",socket.id);
 
-    socket.on("joinRoom",(room)=>{
-        socket.join(room)
+    socket.on("joinRoom",({room,user})=>{
+        socket.join(room);
+        socket.user = user + socket.id.slice(0,5);
         console.log(`Use ${socket.id} Joined The room ${room}`)
     })
 
     socket.on("message",({room,msg})=>{
         io.to(room).emit("message",{
-            sender:socket.id,
+            sender:socket.user,
             msg
         });
     })
